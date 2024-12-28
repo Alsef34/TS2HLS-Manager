@@ -53,6 +53,7 @@ curl -O https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live
 chmod +x ts2hls_live_management.sh
 ./ts2hls_live_management.sh
 ```
+"Kullanıcı eklemek veya kaldırmak ya da Base URL eklemek veya kaldırmak için betiği yeniden çalıştırın."
 
 ---
 
@@ -190,6 +191,7 @@ curl -O https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live
 chmod +x ts2hls_live_management.sh
 ./ts2hls_live_management.sh
 ```
+"To add or remove a user, or to add or remove a Base URL, run the script again."
 
 ---
 
