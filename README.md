@@ -39,26 +39,12 @@ TS2HLS-Manager, HLS (HTTP Live Streaming) yönetimi için geliştirilmiş bir **
 
 ## 🔧 Kurulum
 
-1. Repository'yi klonlayın:
-   ```bash
-   git clone https://github.com/livvaa/TS2HLS-Manager.git
-   ```
-
-2. Dizine gidin:
-   ```bash
-   cd TS2HLS-Manager
-   ```
-
-3. Scripti çalıştırmadan önce gerekli bağımlılıkları kurun:
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y ffmpeg nginx apache2-utils
-   ```
-
-4. Scripti çalıştırın:
-   ```bash
-   bash ts2hls_live_management.sh
-   ```
+Komut dosyasını indirin ve çalıştırın. Tüm gerekli olan paketleri otomatik kuracaktır.
+```bash
+curl -O https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management.sh
+chmod +x ts2hls_live_management.sh
+./ts2hls_live_management.sh
+```
 
 ---
 
@@ -181,26 +167,12 @@ TS2HLS-Manager is a **Bash Script** tool developed for managing HLS (HTTP Live S
 
 ## 🔧 Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/livvaa/TS2HLS-Manager.git
-   ```
-
-2. Navigate to the directory:
-   ```bash
-   cd TS2HLS-Manager
-   ```
-
-3. Install required dependencies before running the script:
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y ffmpeg nginx apache2-utils
-   ```
-
-4. Run the script:
-   ```bash
-   bash ts2hls_live_management.sh
-   ```
+Download and run the script. It will automatically install all the necessary packages.
+```bash
+curl -O https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management.sh
+chmod +x ts2hls_live_management.sh
+./ts2hls_live_management.sh
+```
 
 ---
 
