@@ -30,11 +30,19 @@ TS2HLS-Manager, HLS (HTTP Live Streaming) yönetimi için geliştirilmiş bir **
 
 ## 📦 Gereksinimler
 
-- **Linux** veya **macOS** (Windows için Bash simülasyon araçları gerekebilir)
-- **FFmpeg** (Video işleme için)
-- **Nginx** (HLS yayını için)
-- **Git** (Opsiyonel, kaynak kontrol için)
+- **Linux** veya **macOS*** (Windows için Bash simülasyon araçları gereklidir. WSL ile çalışabilir)
+- AlmaLinux >= 8  
+- Arch Linux  
+- CentOS Stream >= 8  
+- Debian >= 10  
+- Fedora >= 30  
+- Oracle Linux >= 8  
+- Rocky Linux >= 8  
+- Ubuntu >= 20.04  
+- Pardus >= 19  
+- Linux Mint >= 20  
 
+  *Not: macOS'ta scriptin çalışması için Homebrew ile `ffmpeg`, `nginx`, ve `apache2` kurulmalı, dizinler `/usr/local/var/www` olarak değiştirilip IP alma komutu `ipconfig getifaddr en0` ile güncellenmelidir.
 ---
 
 ## 🔧 Kurulum
@@ -158,10 +166,19 @@ TS2HLS-Manager is a **Bash Script** tool developed for managing HLS (HTTP Live S
 
 ## 📦 Requirements
 
-- **Linux** or **macOS** (Bash simulation tools may be required for Windows)
-- **FFmpeg** (For video processing)
-- **Nginx** (For HLS streaming)
-- **Git** (Optional, for source control)
+- **Linux** or **macOS*** (Windows requires Bash simulation tools. It can work with WSL.)  
+- AlmaLinux >= 8  
+- Arch Linux  
+- CentOS Stream >= 8  
+- Debian >= 10  
+- Fedora >= 30  
+- Oracle Linux >= 8  
+- Rocky Linux >= 8  
+- Ubuntu >= 20.04  
+- Pardus >= 19  
+- Linux Mint >= 20  
+
+  *Note: For macOS, the script requires `ffmpeg`, `nginx`, and `apache2` to be installed via Homebrew, directories to be adjusted to `/usr/local/var/www`, and the IP retrieval command to be updated to `ipconfig getifaddr en0`.
 
 ---
 
