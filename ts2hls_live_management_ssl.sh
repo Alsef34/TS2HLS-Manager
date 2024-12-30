@@ -680,9 +680,10 @@ update_software() {
 menu() {
     clear
     update_domain_from_nginx
-    echo "============================================="
-    echo " HLS Yönetim Scripti SSL - NO-ENC v$VERSION"
-    echo "============================================="
+    ts2hls_live_management_ssl=$(grep -E '^ts2hls_live_management_ssl=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+    echo "========================================================="
+    echo " HLS Yönetim Scripti SSL / Kurulu Sürüm: v$VERSION - Güncel Sürüm: v$ts2hls_live_management_ssl"
+    echo "========================================================="
     echo "1) Base URL Ekle"
     echo "2) Base URL Listele"
     echo "3) Base URL Sil"
@@ -693,7 +694,7 @@ menu() {
     echo "8) Çıkış"
     echo "9) Yazılım Güncelle"
     echo "0) Sistemi Kaldır"
-    echo "============================================="
+    echo "========================================================="
     read -p "Seçiminiz: " CHOICE
 
     case $CHOICE in
