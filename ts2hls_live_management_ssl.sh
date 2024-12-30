@@ -543,6 +543,7 @@ remove_system() {
 
     echo "Sistem tamamen kaldırıldı. Gerekirse Nginx ve FFmpeg yedeklerini yeniden yükleyebilirsiniz."
     read -n 1 -s
+    clear
     exit 0
 }
 
