@@ -5,7 +5,7 @@
 
 # Betik versiyonları
 ts2hls_version="1.0.0"
-ts2hls_installer_version="1.0.1"
+ts2hls_installer_version="1.5.0"
 
 # Geçici güncelleme kontrolü için dosya
 update_marker="/tmp/ts2hls_update_done"
