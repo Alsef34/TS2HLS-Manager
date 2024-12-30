@@ -612,7 +612,7 @@ menu() {
     fi
 
     # ts2hls_live_management_version değerini al
-     ts2hls_live_management_no_enc=$(grep -E '^ts2hls_live_management_no_enc=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+     ts2hls_live_management_no_enc=$(grep -E '^ts2hls_live_management_no_enc=' "$TS2HLS_PATH" | cut -d'=' -f2 | tr -d '"')
 
     # Menü
     echo "========================================================="
