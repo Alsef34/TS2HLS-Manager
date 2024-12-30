@@ -590,7 +590,10 @@ done
 #-----------------------------------------------------
 # Ana Akış
 #-----------------------------------------------------
-if [[ ! -f "$USER_FILE" || ! -f "$BASE_URLS_FILE" || ! -f "$USER_BASES_FILE" || ! -d "$OUTPUT_BASE" ]]; then
+if [[ ! -f "$USER_FILE" ]] || 
+   [[ ! -f "$BASE_URLS_FILE" ]] || 
+   [[ ! -f "$USER_BASES_FILE" ]] || 
+   [[ ! -d "$OUTPUT_BASE" ]]; then
     initial_setup
 else
     add_cronjob
