@@ -123,17 +123,19 @@ while true; do
     }
 
     # İndirilen dosya adını tespit et
-    if [ "$selection" == "1" ]; then
+    if [ "$selection" = "1" ]; then
         downloaded_file="ts2hls_live_management.sh"
     else
         downloaded_file="ts2hls_live_management_ssl.sh"
     fi
 
     # Betik adını ts2hls_package.sh olarak değiştir
-    mv "$downloaded_file" ts2hls_package.sh || {
-        echo "Ad değişikliği başarısız oldu!"
+    if mv "$downloaded_file" ts2hls_package.sh; then
+        echo "Ad değişikliği başarılı!"
+    else
+        echo "Ad değişikliği başarısız oldu! '$downloaded_file' dosyası bulunamıyor olabilir."
         exit 1
-    }
+    fi
 
     # Çalıştırma izni ver
     chmod +x ts2hls_package.sh
