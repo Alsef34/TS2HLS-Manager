@@ -602,7 +602,20 @@ update_software() {
 menu() {
     clear
     update_domain_from_nginx
-    ts2hls_live_management_no_enc=$(grep -E '^ts2hls_live_management_no_enc=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+
+    # ts2hls.sh dosyasını bul
+    TS2HLS_PATH=$(find / -name ts2hls.sh 2>/dev/null | head -n 1)
+
+    # Dosya bulunamadıysa hata ver ve çık
+    if [[ -z "$TS2HLS_PATH" ]]; then
+        echo "Hata: ts2hls.sh dosyası bulunamadı!"
+        exit 1
+    fi
+
+    # ts2hls_live_management_version değerini al
+     ts2hls_live_management_no_enc=$(grep -E '^ts2hls_live_management_no_enc=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+
+    # Menü
     echo "========================================================="
     echo " HLS Yönetim Scripti - NO-ENC / Kurulu Sürüm: v$VERSION - Güncel Sürüm: v$ts2hls_live_management_no_enc"
     echo "========================================================="
