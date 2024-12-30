@@ -155,6 +155,9 @@ setup_renewal_cron() {
     fi
 }
 
+# Cronjob'u çağır
+setup_renewal_cron
+
 #--------------------------------------------------------------
 # DOMAIN Değişkenini Nginx server_name'den Güncelle (Tekrarlı Değer Sorunu Çözümü)
 #--------------------------------------------------------------
