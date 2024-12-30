@@ -3,6 +3,7 @@
 #-----------------------------------------------------
 # Temel Değişkenler
 #-----------------------------------------------------
+VERSION="1.0.0"                                  # Sürüm numarası
 USER_MEDIA="/var/www/html/hls"                   # Kullanıcı medya dizini
 OUTPUT_BASE="/var/www/html"                      # HLS çıktı dizini
 USER_FILE="users.txt"                            # Eklenen kullanıcıların listesi
@@ -13,7 +14,6 @@ PID_DIR="/var/run"                               # ffmpeg PID dosyalarının sak
 
 # Sunucu IP adresini al (ilk IPv4)
 SERVER_IP=$(hostname -I | awk '{print $1}')
-
 
 #-----------------------------------------------------
 # İlk Kurulum: Gerekli Yazılımları Kur, Nginx Yapılandır
@@ -36,6 +36,25 @@ initial_setup() {
             video/mp2t ts;
         }
         root $OUTPUT_BASE;
+
+        # CORS Ayarları
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'Range';
+        add_header 'Access-Control-Expose-Headers' 'Content-Length, Content-Range';
+
+        # Preflight (OPTIONS) Requests
+        if (\$request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Range';
+            add_header 'Access-Control-Expose-Headers' 'Content-Length, Content-Range';
+            add_header 'Content-Type' 'text/plain; charset=utf-8';
+            return 204;
+        }
+        # TS ve M3U8 İçin Ek Cache Ayarları
+        add_header 'Cache-Control' 'no-cache' always;
+
     }
 }" | sudo tee $NGINX_CONFIG > /dev/null
 
@@ -52,11 +71,33 @@ initial_setup() {
     touch "$BASE_URLS_FILE"
     touch "$USER_BASES_FILE"
 
+
     echo "Kurulum tamamlandı."
     echo "Base URL ekleyebilir ve kullanıcı yönetimine geçebilirsiniz."
     echo "Devam etmek için bir tuşa basın..."
     read -n 1 -s
 }
+
+#-----------------------------------------------------
+# Cronjob'u Kur
+#-----------------------------------------------------
+add_cronjob() {
+    # Scriptin tam yolunu belirle
+    SCRIPT_PATH=$(realpath $0)
+
+    # Cronjob'un mevcut olup olmadığını kontrol et
+    if crontab -l | grep -q "@reboot /bin/bash $SCRIPT_PATH restart_streams"; then
+        echo "Cronjob zaten mevcut."
+    else
+        # Cronjob ekle
+        (crontab -l; echo "@reboot /bin/bash $SCRIPT_PATH restart_streams") | crontab -
+        echo "Cronjob eklendi: @reboot /bin/bash $SCRIPT_PATH restart_streams"
+    fi
+}
+
+# Cronjob'u çağır
+add_cronjob
+
 
 #-----------------------------------------------------
 # Base URL Ekle / Listele / Sil
@@ -134,7 +175,6 @@ remove_base_url() {
     read -n 1 -s
 }
 
-
 #-----------------------------------------------------
 # Kullanıcı Ekle (Birden Fazla Base URL Seçilir)
 #   HLS çıktısı: <USER_DIR>/<BASE_ID>.m3u8
@@ -209,9 +249,9 @@ add_user() {
         B_URL=$(echo "$LINE" | awk -F'|' '{print $3}')
 
         # ffmpeg
-        nohup ffmpeg -i "$B_URL"             -c:v copy -c:a copy             -f hls             -hls_time 10             -hls_list_size 5             -hls_flags delete_segments             "$USER_DIR/$B_ID.m3u8" > "$USER_DIR/ffmpeg-$B_ID.log" 2>&1 &
+        nohup ffmpeg -re -i "$B_URL"             -c:v libx264 -preset ultrafast -crf 23               -c:a aac -b:a 128k             -f hls             -hls_time 6             -hls_list_size 5             -hls_flags delete_segments+discont_start             -max_delay 500000             "$USER_DIR/$B_ID.m3u8" > "$USER_DIR/ffmpeg-$B_ID.log" 2>&1 &
 
-        echo $! > "$PID_DIR/ffmpeg_${USERNAME}_${B_ID}.pid"
+        echo $! > "$PID_DIR/ffmpeg_${USERNAME}_${BASE_ID}.pid"
         echo "Başlatıldı: Kullanıcı=$USERNAME, Kaynak=$B_NICK, ID=$B_ID"
 
         # Bu kaynağın yayın URL'sini bir diziye ekleyelim
@@ -316,12 +356,145 @@ list_users() {
 }
 
 #-----------------------------------------------------
+# Yayınları Yeniden Başlat (restart_streams)
+#-----------------------------------------------------
+restart_streams() {
+    echo "Mevcut kullanıcı ve yayınlar yeniden başlatılıyor..."
+
+    # Kullanıcıları kontrol et
+    if [[ -s "$USER_FILE" && -s "$USER_BASES_FILE" && -s "$BASE_URLS_FILE" ]]; then
+        while read -r USERNAME; do
+            echo "Kullanıcı: $USERNAME için yayınlar yeniden başlatılıyor..."
+
+            # Kullanıcının Base URL'lerini al
+            LINE=$(grep "^${USERNAME}|" "$USER_BASES_FILE")
+            if [[ -n "$LINE" ]]; then
+                BASE_IDS=$(echo "$LINE" | awk -F'|' '{print $2}')
+                IFS=',' read -ra ID_ARRAY <<< "$BASE_IDS"
+                for BASE_ID in "${ID_ARRAY[@]}"; do
+                    LINE=$(grep "^${BASE_ID}|" "$BASE_URLS_FILE")
+                    if [[ -z "$LINE" ]]; then
+                        echo "Uyarı: ID=$BASE_ID bulunamadı, atlanıyor..."
+                        continue
+                    fi
+
+                    B_URL=$(echo "$LINE" | awk -F'|' '{print $3}')
+                    USER_DIR="$USER_MEDIA/$USERNAME"
+                    sudo mkdir -p "$USER_DIR"
+                        nohup ffmpeg -re -i "$B_URL" \
+                        -c:v libx264 -preset ultrafast -crf 23 \
+                        -c:a aac -b:a 128k \
+                        -f hls \
+                        -hls_time 6 \
+                        -hls_list_size 5 \
+                        -hls_flags delete_segments+discont_start \
+                        -max_delay 500000 \
+                        "$USER_DIR/$BASE_ID.m3u8" > "$USER_DIR/ffmpeg-$BASE_ID.log" 2>&1 &
+
+                       echo $! > "$PID_DIR/ffmpeg_${USERNAME}_${BASE_ID}.pid"
+                    echo "Yayın başlatıldı: Kullanıcı=$USERNAME, ID=$BASE_ID"
+                done
+            fi
+        done < "$USER_FILE"
+    else
+        echo "Yeniden başlatılacak kullanıcı bulunamadı."
+    fi
+}
+
+#-----------------------------------------------------
+# Cron Yeniden Başlatma Fonksiyonu
+#-----------------------------------------------------
+if [[ "$1" == "restart_streams" ]]; then
+    restart_streams
+fi
+
+
+#-----------------------------------------------------
+# Sistem Kaldırma Fonksiyonu
+#-----------------------------------------------------
+remove_system() {
+    clear
+    echo "Bu işlem, script tarafından kurulan her şeyi kaldırır ve geri alınamaz."
+    read -p "Devam etmek istediğinize emin misiniz? (y/N): " CONFIRM
+
+    if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+        echo "İşlem iptal edildi."
+        read -n 1 -s
+        return
+    fi
+
+    echo "Kaldırma işlemi başlatılıyor..."
+
+    # 1. Kullanıcı ve Base URL dosyalarını sil
+    echo "Kullanıcı ve Base URL dosyaları siliniyor..."
+    rm -f "$USER_FILE" "$BASE_URLS_FILE" "$USER_BASES_FILE"
+
+    # 2. HLS çıktı dizinini temizle
+    echo "HLS çıktı dizini temizleniyor..."
+    sudo rm -rf "$OUTPUT_BASE"
+
+    # 3. FFmpeg PID dosyalarını sil ve süreçleri öldür
+    echo "FFmpeg süreçleri durduruluyor..."
+    if [[ -d "$PID_DIR" ]]; then
+        for PID_FILE in "$PID_DIR"/ffmpeg_*.pid; do
+            if [[ -f "$PID_FILE" ]]; then
+                kill "$(cat "$PID_FILE")" 2>/dev/null
+                rm -f "$PID_FILE"
+            fi
+        done
+    fi
+
+    # 4. Log dosyalarını sil
+    echo "Log dosyaları temizleniyor..."
+    sudo rm -f "$USER_MEDIA"/*/ffmpeg-*.log
+
+    # 5. Nginx yapılandırmasını kaldır
+    echo "Nginx yapılandırması temizleniyor..."
+    sudo rm -f "$NGINX_CONFIG" /etc/nginx/sites-enabled/hls
+    sudo rm -rf /etc/nginx/sites-available /etc/nginx/sites-enabled
+    sudo systemctl stop nginx
+    sudo apt-get purge -y nginx nginx-common
+    sudo apt-get autoremove -y
+
+    # 6. Systemd servisini kaldır
+    echo "Systemd servisi kaldırılıyor..."
+    SERVICE_PATH="/etc/systemd/system/hls_restart.service"
+    if [[ -f "$SERVICE_PATH" ]]; then
+        sudo systemctl stop hls_restart.service
+        sudo systemctl disable hls_restart.service
+        sudo rm -f "$SERVICE_PATH"
+        sudo systemctl daemon-reload
+    fi
+
+    # 7. FFmpeg'i kaldır
+    echo "FFmpeg kaldırılıyor..."
+    sudo apt-get purge -y ffmpeg
+    sudo apt-get autoremove -y
+
+    # 8. Script dosyasını kaldır
+    echo "Script dosyası temizleniyor..."
+    sudo rm -f "$(realpath $0)"
+
+    echo "Sistem tamamen kaldırıldı. Gerekirse Nginx ve FFmpeg yedeklerini yeniden yükleyebilirsiniz."
+    read -n 1 -s
+}
+
+#-----------------------------------------------------
+# Ana Akış
+#-----------------------------------------------------
+if [[ ! -f "$USER_FILE" || ! -f "$BASE_URLS_FILE" || ! -f "$USER_BASES_FILE" || ! -d "$OUTPUT_BASE" ]]; then
+    initial_setup
+else
+    add_cronjob
+fi
+
+#-----------------------------------------------------
 # Ana Menü
 #-----------------------------------------------------
 menu() {
     clear
     echo "======================================="
-    echo "       HLS Yönetim Scripti"
+    echo "     HLS Yönetim Scripti v$VERSION"
     echo "======================================="
     echo "1) Base URL Ekle"
     echo "2) Base URL Listele"
@@ -329,7 +502,9 @@ menu() {
     echo "4) Kullanıcı Ekle (Çoklu Base URL)"
     echo "5) Kullanıcı Kaldır"
     echo "6) Kullanıcıları Listele"
-    echo "7) Çıkış"
+    echo "7) Yayınları Yeniden başlat"
+    echo "8) Çıkış"
+    echo "0) Sistemi Kaldır"
     echo "======================================="
     read -p "Seçiminiz: " CHOICE
 
@@ -340,20 +515,15 @@ menu() {
         4) add_user ;;
         5) remove_user ;;
         6) list_users ;;
-        7) echo "Çıkış yapılıyor..."; exit 0 ;;
-        *) 
+        7) restart_streams ;;
+        8) echo "Çıkış yapılıyor..."; exit 0 ;;
+	0) remove_system ;;
+        *)
             echo "Geçersiz seçim!"
             read -n 1 -s
             ;;
     esac
 }
-
-#-----------------------------------------------------
-# Script'in Ana Akışı
-#-----------------------------------------------------
-if [[ ! -f "$USER_FILE" || ! -f "$BASE_URLS_FILE" || ! -f "$USER_BASES_FILE" || ! -d "$OUTPUT_BASE" ]]; then
-    initial_setup
-fi
 
 while true; do
     menu
