@@ -44,12 +44,12 @@ while true; do
     echo " TS2HLS Installer Script"
     echo " Installer Version: $ts2hls_installer_version"
     echo "========================="
-    echo "Hangi işlemi yapmak istersiniz?"
-    echo "0) MIT lisansını görüntüle"
-    echo "1) ts2hls_live_management.sh kur"
-    echo "2) ts2hls_live_pro.sh kur"
+    echo "Hangi sürümü kurmak istersiniz?"
+    echo "1) TS2HLS Standart Sürüm"
+    echo "2) TS2HLS Gelişmiş Sürüm (SSL)"
+    echo "0) Lisans Görüntüle"
     echo "3) Çıkış"
-    echo "========================="
+    echo "========================"
     read -p "Seçiminizi yapın (0, 1, 2 veya 3): " selection
 
     if [ "$selection" == "0" ]; then
