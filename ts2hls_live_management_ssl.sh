@@ -147,19 +147,27 @@ setup_renewal_cron() {
     fi
 }
 
-#-----------------------------------------------------
-# DOMAIN Değişkenini Nginx server_name'den Güncelle
-#-----------------------------------------------------
+#--------------------------------------------------------------
+# DOMAIN Değişkenini Nginx server_name'den Güncelle (Tekrarlı Değer Sorunu Çözümü)
+#--------------------------------------------------------------
 update_domain_from_nginx() {
     # Nginx konfigürasyon dosyasından server_name'i al
     if [[ -f "$NGINX_CONFIG" ]]; then
-        # server_name değerini çek ve noktalı virgülü sil
-        DOMAIN=$(grep "server_name" "$NGINX_CONFIG" | awk '{print $2}' | sed 's/;//')
+        # server_name değerini çek ve fazladan karakterleri temizle
+        DOMAIN=$(grep "server_name" "$NGINX_CONFIG" | awk '{print $2}' | sed 's/;//' | head -n 1 | tr -d '\n' | tr -d '\r')
+        
+        # Aynı değer iki kez eklenmiş mi kontrol et
+        DOMAIN=$(echo "$DOMAIN" | sed 's/\(.*\)\1/\1/')
         
         if [[ -n "$DOMAIN" ]]; then
-            # Script'in kendisinde DOMAIN değişkenini güncelle
-            sed -i "s/^DOMAIN=.*/DOMAIN=\"$DOMAIN\"/" "$(realpath $0)"
-            echo "DOMAIN değişkeni başarıyla güncellendi: $DOMAIN"
+            # DOMAIN değişkenini scriptin kendisinde güncelle
+            sed -i "s|^DOMAIN=.*|DOMAIN=\"$DOMAIN\"|" "$(realpath $0)"
+            
+            if [[ $? -eq 0 ]]; then
+                echo "DOMAIN değişkeni başarıyla güncellendi: $DOMAIN"
+            else
+                echo "Hata: sed komutunda bir sorun oluştu!"
+            fi
         else
             echo "Hata: Nginx config dosyasından server_name alınamadı."
         fi
