@@ -636,6 +636,10 @@ update_software() {
         done
     fi
 
+    # 4. Eski ullanıcı ve Base URL dosyalarını sil
+    echo "Kullanıcı ve Base URL dosyaları siliniyor..."
+    rm -f "$USER_FILE" "$BASE_URLS_FILE" "$USER_BASES_FILE"
+
     # 5. Cron job'ları kaldır
     echo "Cron job'ları temizleniyor..."
     crontab -l 2>/dev/null | grep -v "certbot renew" | grep -v "@reboot /bin/bash $(realpath $0) restart_streams" | crontab -
