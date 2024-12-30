@@ -601,7 +601,6 @@ update_software() {
 #-----------------------------------------------------
 menu() {
     clear
-    update_domain_from_nginx
 
     # ts2hls.sh dosyasını bul
     TS2HLS_PATH=$(find / -name ts2hls.sh 2>/dev/null | head -n 1)
