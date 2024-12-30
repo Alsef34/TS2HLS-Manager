@@ -562,7 +562,7 @@ menu() {
     clear
     update_domain_from_nginx
     echo "======================================="
-    echo "       HLS Yönetim Scripti SSL"
+    echo "   HLS Yönetim Scripti SSL v$VERSION"
     echo "======================================="
     echo "1) Base URL Ekle"
     echo "2) Base URL Listele"
