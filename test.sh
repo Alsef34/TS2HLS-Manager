@@ -665,7 +665,7 @@ update_software() {
     fi
 
     # İzinlerin ayarlanması ve scriptin çalıştırılması
-    echo "Yeni scriptin izni ayarlanıyor ve çalıştırılıyor..."
+    echo "TS2HLS izni ayarlanıyor ve çalıştırılıyor..."
     chmod +x ts2hls.sh
 
     echo "Yeni script çalıştırılıyor..."
