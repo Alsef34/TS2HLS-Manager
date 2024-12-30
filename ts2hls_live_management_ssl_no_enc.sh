@@ -136,7 +136,7 @@ add_cronjob
 #-----------------------------------------------------
 # Let's Encrypt SSL Sertifikası Yenileme için Cronjob Ekleme
 #-----------------------------------------------------
-setup_recert_cron() {
+ssl_cronjob() {
     echo "Let's Encrypt SSL sertifikaları için cronjob ekleniyor..."
 
     # Cronjob komutunu tanımla
@@ -156,7 +156,7 @@ setup_recert_cron() {
 }
 
 # Cronjob'u çağır
-setup_recert_cron
+ssl_cronjob
 
 #--------------------------------------------------------------
 # DOMAIN Değişkenini Nginx server_name'den Güncelle (Tekrarlı Değer Sorunu Çözümü)
@@ -597,7 +597,7 @@ if [[ ! -f "$USER_FILE" ]] ||
     initial_setup
 else
     add_cronjob
-    setup_recert_cron
+    ssl_cronjob
 fi
 
 #-----------------------------------------------------
