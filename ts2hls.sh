@@ -7,20 +7,27 @@
 ts2hls_version="1.0.0"
 ts2hls_installer_version="1.0.0"
 
+# Geçici güncelleme kontrolü için dosya
+update_marker="/tmp/ts2hls_update_done"
+
 # Betiğin kendisini güncellemesi
-echo "Betiğin güncel sürümü kontrol ediliyor..."
-curl -s -o "ts2hls_install_latest.sh" "https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls.sh" || {
-    echo "Güncelleme başarısız oldu! Eski sürüm çalıştırılıyor..."
-    sleep 2
-    clear
-}
-if [ -f "ts2hls_install_latest.sh" ]; then
-    # Yeni sürüm mevcutsa kendisini günceller
-    mv ts2hls_install_latest.sh ts2hls.sh
-    chmod +x ts2hls.sh
-    echo "Güncelleme tamamlandı. Yeni sürüm çalıştırılıyor..."
-    exec ./ts2hls.sh
-    exit 0
+if [ ! -f "$update_marker" ]; then
+    echo "Betiğin güncel sürümü kontrol ediliyor..."
+    curl -s -o "ts2hls_install_latest.sh" "https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls.sh" || {
+        echo "Güncelleme başarısız oldu! Eski sürüm çalıştırılıyor..."
+        sleep 2
+        clear
+    }
+    if [ -f "ts2hls_install_latest.sh" ]; then
+        mv ts2hls_install_latest.sh ts2hls.sh
+        chmod +x ts2hls.sh
+        echo "Güncelleme tamamlandı. Yeni sürüm çalıştırılıyor..."
+        touch "$update_marker" # Güncelleme tamamlandı işareti
+        exec ./ts2hls.sh
+        exit 0
+    fi
+else
+    rm -f "$update_marker" # İşaret dosyasını kaldır
 fi
 
 # Mevcut ts2hls_package.sh kontrolü
