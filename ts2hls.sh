@@ -4,7 +4,10 @@
 # Version: 1.0.1
 
 # Betik versiyonları
-ts2hls_version="1.0.0"
+ts2hls_live_management_version="1.0.0"
+ts2hls_live_management_no_enc="1.0.0"
+ts2hls_live_management_ssl="1.0.0"
+ts2hls_live_management_ssl_no_enc="1.0.0"
 ts2hls_installer_version="1.6.0"
 
 # Geçici güncelleme kontrolü için dosya
