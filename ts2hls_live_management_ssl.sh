@@ -596,8 +596,8 @@ if [[ ! -f "$USER_FILE" ]] ||
    [[ ! -d "$OUTPUT_BASE" ]]; then
     initial_setup
 else
-    add_cronjob
     ssl_cronjob
+    add_cronjob
 fi
 
 #-----------------------------------------------------
