@@ -119,7 +119,7 @@ server {
 
 ## 🛡️ Lisans
 
-Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
+Bu proje [AGPL-3.0 Lisansı](LICENSE) ile lisanslanmıştır.
 
 ---
 
@@ -257,7 +257,7 @@ server {
 
 ## 🛡️ License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [AGPL-3.0 License](LICENSE).
 
 ---
 
