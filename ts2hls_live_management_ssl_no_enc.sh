@@ -30,6 +30,7 @@ initial_setup() {
     sudo apt-get install -y ffmpeg nginx apache2-utils certbot python3-certbot-nginx
 
     # Kullanıcıdan domain ve e-posta adresi al
+    clear
     echo "Alan adınızı (örnek: example.com) girin:"
     read -r DOMAIN
     echo "Let's Encrypt için e-posta adresinizi girin:"
