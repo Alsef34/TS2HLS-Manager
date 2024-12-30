@@ -692,7 +692,7 @@ menu() {
     fi
 
     # ts2hls_live_management_version değerini al
-    ts2hls_live_management_ssl=$(grep -E '^ts2hls_live_management_ssl=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+    ts2hls_live_management_ssl=$(grep -E '^ts2hls_live_management_ssl=' "$TS2HLS_PATH" | cut -d'=' -f2 | tr -d '"')
 
     # Menü
     echo "========================================================="
