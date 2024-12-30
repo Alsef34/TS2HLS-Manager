@@ -11,7 +11,7 @@ BASE_URLS_FILE="base_urls.txt"                # Base URL'ler (ID|TakmaAd|URL)
 USER_BASES_FILE="user_bases.txt"              # Kullanıcıya ait base ID listesi (username|1,2,3)
 NGINX_CONFIG="/etc/nginx/sites-available/hls" # Nginx konfigürasyon dosyası
 PID_DIR="/var/run"                            # ffmpeg PID dosyalarının saklanacağı dizin
-SCRIPT_URL="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management_ssl.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management_ssl_no_enc.sh"
 
 DOMAIN=""
 EMAIL=""                                      # Let's Encrypt için e-posta adresi
