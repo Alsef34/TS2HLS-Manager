@@ -141,6 +141,6 @@ while true; do
 
     # Kullanıcıyı bilgilendir ve çalıştırmayı öner
     echo "Kurulum tamamlandı! Betiği çalıştırmak için aşağıdaki komutu kullanabilirsiniz:"
-    echo "./ts2hls_package.sh"
+    ./ts2hls_package.sh
     break
 done
