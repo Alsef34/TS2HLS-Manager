@@ -40,10 +40,10 @@ fi
 while true; do
     # Kullanıcıya menüyü ve sürüm bilgisini göster
     clear
-    echo "========================="
+    echo "==================================================="
     echo " TS2HLS Installer Script"
     echo " Installer Version: $ts2hls_installer_version"
-    echo "========================="
+    echo "==================================================="
     echo "Hangi sürümü kurmak istersiniz?"
     echo "1) TS2HLS Standart Sürüm"
     echo "2) TS2HLS Gelişmiş Sürüm (SSL)"
@@ -51,7 +51,7 @@ while true; do
     echo "4) TS2HLS Kodlama Olmadan Gelişmiş Sürüm (SSL)"
     echo "0) Lisans Görüntüle"
     echo "5) Çıkış"
-    echo "========================"
+    echo "=================================================="
     read -p "Seçiminizi yapın (0, 1, 2, 3, 4 veya 5): " selection
 
     case $selection in
