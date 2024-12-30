@@ -88,7 +88,7 @@ initial_setup() {
 
     # Let's Encrypt ile SSL yapılandırması
     echo "Let's Encrypt ile SSL yapılandırılıyor..."
-    sudo certbot --nginx -d "$DOMAIN" --email "$EMAIL" --agree-tos --non-interactive
+    sudo certbot --nginx -d "$DOMAIN" --email "$EMAIL" --agree-tos --non-interactive --redirect
 
     # HTTP'den HTTPS'e yönlendirme ekle
     echo "server {
