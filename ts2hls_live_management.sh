@@ -71,7 +71,7 @@ initial_setup() {
     touch "$BASE_URLS_FILE"
     touch "$USER_BASES_FILE"
 
-
+    clear
     echo "Kurulum tamamlandı."
     echo "Base URL ekleyebilir ve kullanıcı yönetimine geçebilirsiniz."
     echo "Devam etmek için bir tuşa basın..."
