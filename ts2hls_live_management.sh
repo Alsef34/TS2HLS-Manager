@@ -249,7 +249,7 @@ add_user() {
         B_URL=$(echo "$LINE" | awk -F'|' '{print $3}')
 
         # ffmpeg
-        nohup ffmpeg -re -i "$B_URL"             -c:v libx264 -preset ultrafast -crf 23               -c:a aac -b:a 128k             -f hls             -hls_time 6             -hls_list_size 5             -hls_flags delete_segments+discont_start             -max_delay 500000             "$USER_DIR/$B_ID.m3u8" > "$USER_DIR/ffmpeg-$B_ID.log" 2>&1 &
+        nohup ffmpeg -re -i "$B_URL"             -c:v libx264 -preset ultrafast -crf 23               -c:a aac -b:a 128k             -f hls             -hls_time 10             -hls_list_size 6             -hls_flags delete_segments+discont_start             -max_delay 5000000             "$USER_DIR/$B_ID.m3u8" > "$USER_DIR/ffmpeg-$B_ID.log" 2>&1 &
 
         echo $! > "$PID_DIR/ffmpeg_${USERNAME}_${BASE_ID}.pid"
         echo "Başlatıldı: Kullanıcı=$USERNAME, Kaynak=$B_NICK, ID=$B_ID"
@@ -385,10 +385,10 @@ restart_streams() {
                         -c:v libx264 -preset ultrafast -crf 23 \
                         -c:a aac -b:a 128k \
                         -f hls \
-                        -hls_time 6 \
-                        -hls_list_size 5 \
+                        -hls_time 10 \
+                        -hls_list_size 6 \
                         -hls_flags delete_segments+discont_start \
-                        -max_delay 500000 \
+                        -max_delay 5000000 \
                         "$USER_DIR/$BASE_ID.m3u8" > "$USER_DIR/ffmpeg-$BASE_ID.log" 2>&1 &
 
                        echo $! > "$PID_DIR/ffmpeg_${USERNAME}_${BASE_ID}.pid"
