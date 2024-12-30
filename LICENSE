@@ -1,21 +1,40 @@
-MIT License
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
 
-Copyright (c) 2024 Livvaa
+Copyright (C) 2024 Livvaa
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+### Third-Party Dependencies
+
+This software uses the following third-party dependencies, which are licensed under their respective open-source licenses:
+- **Nginx**: BSD-2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
+- **Certbot**: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+- **FFmpeg**: GPL or LGPL (https://ffmpeg.org/legal.html)
+
+Please refer to the above links for the respective licenses of these dependencies. Users are required to comply with these licenses in addition to this license.
+
+---
+
+### Network Usage Clause (AGPL Requirement)
+
+If this software is used to provide a network service, you are required to make the complete source code of the modified version accessible to all users of the service.
+
+For detailed terms, see the full AGPL v3 license text here: [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html).
+
+---
+
+**Note**: This license requires that any modified versions of this software, when used to provide services over a network, must make the source code available to the users of those services.
