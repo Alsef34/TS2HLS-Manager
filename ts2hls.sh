@@ -53,30 +53,51 @@ while true; do
     read -p "Seçiminizi yapın (0, 1, 2 veya 3): " selection
 
     if [ "$selection" == "0" ]; then
-        # MIT lisansını göster
+        # AGPL-3.0 Lisansını Göster
         clear
-        echo "MIT License"
-        echo "Copyright (c) 2024 Livvaa"
+        echo "GNU AFFERO GENERAL PUBLIC LICENSE"
+        echo "Version 3, 19 November 2007"
         echo ""
-        echo "Permission is hereby granted, free of charge, to any person obtaining a copy"
-        echo "of this software and associated documentation files (the \"Software\"), to deal"
-        echo "in the Software without restriction, including without limitation the rights"
-        echo "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"
-        echo "copies of the Software, and to permit persons to whom the Software is"
-        echo "furnished to do so, subject to the following conditions:"
+        echo "Copyright (C) 2024 Livvaa"
         echo ""
-        echo "The above copyright notice and this permission notice shall be included in all"
-        echo "copies or substantial portions of the Software."
+        echo "This program is free software: you can redistribute it and/or modify"
+        echo "it under the terms of the GNU Affero General Public License as published"
+        echo "by the Free Software Foundation, either version 3 of the License, or"
+        echo "(at your option) any later version."
         echo ""
-        echo "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR"
-        echo "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,"
-        echo "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE"
-        echo "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
-        echo "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,"
-        echo "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE"
-        echo "SOFTWARE."
+        echo "This program is distributed in the hope that it will be useful,"
+        echo "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+        echo "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
+        echo "GNU Affero General Public License for more details."
+        echo ""
+        echo "You should have received a copy of the GNU Affero General Public License"
+        echo "along with this program. If not, see <https://www.gnu.org/licenses/>."
+        echo ""
+        echo "---"
+        echo ""
+        echo "### Third-Party Dependencies"
+        echo ""
+        echo "This software uses the following third-party dependencies, which are licensed under their respective open-source licenses:"
+        echo "- **Nginx**: BSD-2-Clause License (https://opensource.org/licenses/BSD-2-Clause)"
+        echo "- **Certbot**: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)"
+        echo "- **FFmpeg**: GPL or LGPL (https://ffmpeg.org/legal.html)"
+        echo ""
+        echo "Please refer to the above links for the respective licenses of these dependencies. Users are required to comply with these licenses in addition to this license."
+        echo ""
+        echo "---"
+        echo ""
+        echo "### Network Usage Clause (AGPL Requirement)"
+        echo ""
+        echo "If this software is used to provide a network service, you are required to make the complete source code of the modified version accessible to all users of the service."
+        echo ""
+        echo "For detailed terms, see the full AGPL v3 license text here: [https://www.gnu.org/licenses/agpl-3.0.html]."
+        echo ""
+        echo "---"
+        echo ""
+        echo "**Note**: This license requires that any modified versions of this software, when used to provide services over a network, must make the source code available to the users of those services."
         echo ""
         read -p "Menüye geri dönmek için herhangi bir tuşa basın..."
+
         continue
     elif [ "$selection" == "1" ]; then
         # ts2hls_live_management.sh kurulumu
@@ -96,7 +117,10 @@ while true; do
 
     # Betiği indir
     echo "Betiği indiriyor..."
-    curl -O "$script_url" || { echo "Betiği indirme başarısız oldu!"; exit 1; }
+    curl -O "$script_url" || {
+        echo "Betiği indirme başarısız oldu!"
+        exit 1
+    }
 
     # İndirilen dosya adını tespit et
     if [ "$selection" == "1" ]; then
@@ -106,7 +130,10 @@ while true; do
     fi
 
     # Betik adını ts2hls_package.sh olarak değiştir
-    mv "$downloaded_file" ts2hls_package.sh || { echo "Ad değişikliği başarısız oldu!"; exit 1; }
+    mv "$downloaded_file" ts2hls_package.sh || {
+        echo "Ad değişikliği başarısız oldu!"
+        exit 1
+    }
 
     # Çalıştırma izni ver
     chmod +x ts2hls_package.sh
