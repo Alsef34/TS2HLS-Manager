@@ -599,7 +599,20 @@ update_software() {
 #-----------------------------------------------------
 menu() {
     clear
-    ts2hls_live_management_version=$(grep -E '^ts2hls_live_management_version=' /path/to/ts2hls.sh | cut -d'=' -f2 | tr -d '"')
+
+    # ts2hls.sh dosyasını bul
+    TS2HLS_PATH=$(find / -name ts2hls.sh 2>/dev/null | head -n 1)
+
+    # Dosya bulunamadıysa hata ver ve çık
+    if [[ -z "$TS2HLS_PATH" ]]; then
+        echo "Hata: ts2hls.sh dosyası bulunamadı!"
+        exit 1
+    fi
+
+    # ts2hls_live_management_version değerini al
+    ts2hls_live_management_version=$(grep -E '^ts2hls_live_management_version=' "$TS2HLS_PATH" | cut -d'=' -f2 | tr -d '"')
+
+    # Menü
     echo "========================================================="
     echo " HLS Yönetim Scripti / Kurulu Sürüm: v$VERSION - Güncel Sürüm: v$ts2hls_live_management_version"
     echo "========================================================="
