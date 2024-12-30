@@ -407,7 +407,7 @@ list_users() {
                 BASE_IDS=$(echo "$LINE" | awk -F'|' '{print $2}')
                 IFS=',' read -ra ID_ARRAY <<< "$BASE_IDS"
                 for BASE_ID in "${ID_ARRAY[@]}"; do
-                    echo "  - ID=$BASE_ID: http://$DOMAIN/hls/$USERNAME/$BASE_ID.m3u8"
+                    echo "  - ID=$BASE_ID: https://$DOMAIN/hls/$USERNAME/$BASE_ID.m3u8"
                 done
             else
                 echo "  Henüz bu kullanıcıya ait Base URL eklenmemiş."
