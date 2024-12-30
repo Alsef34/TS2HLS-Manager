@@ -127,6 +127,25 @@ add_cronjob() {
 add_cronjob
 
 #-----------------------------------------------------
+# Let's Encrypt SSL Sertifikası Yenileme için Cronjob Ekleme
+#-----------------------------------------------------
+setup_renewal_cron() {
+    echo "Let's Encrypt SSL sertifikaları için cronjob ekleniyor..."
+    
+    # Cronjob komutunu tanımla
+    CRON_CMD="0 3 */60 * * certbot renew --quiet && systemctl reload nginx"
+
+    # Cronjob'un zaten ekli olup olmadığını kontrol et
+    if crontab -l 2>/dev/null | grep -q "certbot renew"; then
+        echo "Cronjob zaten mevcut."
+    else
+        # Cronjob'u ekle
+        (crontab -l 2>/dev/null; echo "$CRON_CMD") | crontab -
+        echo "Cronjob başarıyla eklendi: $CRON_CMD"
+    fi
+}
+
+#-----------------------------------------------------
 # DOMAIN Değişkenini Nginx server_name'den Güncelle
 #-----------------------------------------------------
 update_domain_from_nginx() {
@@ -532,6 +551,7 @@ if [[ ! -f "$USER_FILE" || ! -f "$BASE_URLS_FILE" || ! -f "$USER_BASES_FILE" || 
     initial_setup
 else
     add_cronjob
+    setup_renewal_cron
 fi
 
 #-----------------------------------------------------
