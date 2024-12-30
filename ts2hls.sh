@@ -101,10 +101,10 @@ while true; do
         continue
     elif [ "$selection" == "1" ]; then
         # ts2hls_live_management.sh kurulumu
-        script_url="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management.sh"
+        script_url="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management_ssl.sh"
     elif [ "$selection" == "2" ]; then
         # ts2hls_live_pro.sh kurulumu
-        script_url="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_pro.sh"
+        script_url="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management.sh"
     elif [ "$selection" == "3" ]; then
         # Çıkış seçeneği
         echo "Çıkılıyor..."
