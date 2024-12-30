@@ -33,6 +33,7 @@ fi
 # Mevcut ts2hls_package.sh kontrolü
 if [ -f "ts2hls_package.sh" ]; then
     echo "ts2hls_package.sh zaten mevcut. Çalıştırılıyor..."
+    chmod +x ts2hls_package.sh
     ./ts2hls_package.sh
     exit 0
 fi
