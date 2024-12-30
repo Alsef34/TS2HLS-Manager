@@ -105,7 +105,6 @@ initial_setup() {
     echo "Base URL ekleyebilir ve kullanıcı yönetimine geçebilirsiniz."
     echo "Devam etmek için bir tuşa basın..."
     read -n 1 -s
-    clear
 
 }
 
