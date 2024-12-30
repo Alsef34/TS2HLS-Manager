@@ -156,7 +156,7 @@ setup_ressl_cron() {
 }
 
 # Cronjob'u çağır
-setup_renewal_cron
+setup_ressl_cron
 
 #--------------------------------------------------------------
 # DOMAIN Değişkenini Nginx server_name'den Güncelle (Tekrarlı Değer Sorunu Çözümü)
