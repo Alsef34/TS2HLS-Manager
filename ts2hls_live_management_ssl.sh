@@ -550,7 +550,7 @@ remove_system() {
     sudo rm -f "$(realpath $0)"
 
     clear
-    echo "Sistem tamamen kaldırıldı. Gerekirse Nginx ve FFmpeg yedeklerini yeniden yükleyebilirsiniz."
+    echo "Sistem tamamen kaldırıldı. Dilerseniz ./ts2hls.sh komutu ile tekrardan yazılımı kurabilirsiniz."
     read -n 1 -s
     clear
     exit 0
