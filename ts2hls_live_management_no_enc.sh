@@ -384,7 +384,7 @@ restart_streams() {
                     sudo mkdir -p "$USER_DIR"
                         nohup ffmpeg -re -i "$B_URL" \ 
                         -c:v copy \
-                        -c:a copy\
+                        -c:a copy \
                         -f hls \
                         -hls_time 5 \
                         -hls_list_size 12 \
