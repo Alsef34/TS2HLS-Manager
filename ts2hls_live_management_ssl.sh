@@ -3,6 +3,7 @@
 #-----------------------------------------------------
 # Temel Değişkenler
 #-----------------------------------------------------
+VERSION="1.0.0"                                  # Sürüm numarası
 USER_MEDIA="/var/www/html/hls"                   # Kullanıcı medya dizini
 OUTPUT_BASE="/var/www/html"                      # HLS çıktı dizini
 USER_FILE="users.txt"                            # Eklenen kullanıcıların listesi
