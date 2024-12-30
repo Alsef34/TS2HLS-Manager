@@ -523,23 +523,16 @@ remove_system() {
     echo "Log dosyaları temizleniyor..."
     sudo rm -f "$USER_MEDIA"/*/ffmpeg-*.log
 
-    # 5. Nginx yapılandırmasını kaldır
+    # 5. Cron job'ları kaldır
+    echo "Cron job'ları temizleniyor..."
+    crontab -l 2>/dev/null | grep -v "certbot renew" | grep -v "@reboot /bin/bash $(realpath $0) restart_streams" | crontab -
+    
+    # 6. Nginx yapılandırmasını kaldır
     echo "Nginx yapılandırması temizleniyor..."
     sudo rm -f "$NGINX_CONFIG" /etc/nginx/sites-enabled/hls
-    sudo rm -rf /etc/nginx/sites-available /etc/nginx/sites-enabled
     sudo systemctl stop nginx
     sudo apt-get purge -y nginx nginx-common
     sudo apt-get autoremove -y
-
-    # 6. Systemd servisini kaldır
-    echo "Systemd servisi kaldırılıyor..."
-    SERVICE_PATH="/etc/systemd/system/hls_restart.service"
-    if [[ -f "$SERVICE_PATH" ]]; then
-        sudo systemctl stop hls_restart.service
-        sudo systemctl disable hls_restart.service
-        sudo rm -f "$SERVICE_PATH"
-        sudo systemctl daemon-reload
-    fi
 
     # 7. FFmpeg'i kaldır
     echo "FFmpeg kaldırılıyor..."
