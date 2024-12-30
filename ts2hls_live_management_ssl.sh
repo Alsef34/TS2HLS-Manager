@@ -100,10 +100,12 @@ initial_setup() {
     sudo ln -sf /etc/nginx/sites-available/redirect /etc/nginx/sites-enabled/redirect
     sudo systemctl restart nginx
 
+    clear
     echo "Kurulum tamamlandı."
     echo "Base URL ekleyebilir ve kullanıcı yönetimine geçebilirsiniz."
     echo "Devam etmek için bir tuşa basın..."
     read -n 1 -s
+    clear
 
 }
 
@@ -541,6 +543,7 @@ remove_system() {
     echo "Script dosyası temizleniyor..."
     sudo rm -f "$(realpath $0)"
 
+    clear
     echo "Sistem tamamen kaldırıldı. Gerekirse Nginx ve FFmpeg yedeklerini yeniden yükleyebilirsiniz."
     read -n 1 -s
     clear
