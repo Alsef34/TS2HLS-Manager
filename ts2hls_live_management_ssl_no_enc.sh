@@ -136,7 +136,7 @@ add_cronjob
 #-----------------------------------------------------
 # Let's Encrypt SSL Sertifikası Yenileme için Cronjob Ekleme
 #-----------------------------------------------------
-setup_renewal_cron() {
+setup_ressl_cron() {
     echo "Let's Encrypt SSL sertifikaları için cronjob ekleniyor..."
 
     # Cronjob komutunu tanımla
@@ -597,7 +597,7 @@ if [[ ! -f "$USER_FILE" ]] ||
     initial_setup
 else
     add_cronjob
-    setup_renewal_cron
+    setup_ressl_cron
 fi
 
 #-----------------------------------------------------
