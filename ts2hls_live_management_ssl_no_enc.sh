@@ -13,7 +13,7 @@ NGINX_CONFIG="/etc/nginx/sites-available/hls" # Nginx konfigürasyon dosyası
 PID_DIR="/var/run"                            # ffmpeg PID dosyalarının saklanacağı dizin
 SCRIPT_URL="https://raw.githubusercontent.com/livvaa/TS2HLS-Manager/main/ts2hls_live_management_ssl_no_enc.sh"
 
-DOMAIN="fighttv.org"
+DOMAIN=""
 EMAIL=""                                      # Let's Encrypt için e-posta adresi
 
 # Sunucu IP adresini al (ilk IPv4)
